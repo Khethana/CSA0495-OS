@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+int main() {
+    int fd = open("file.txt", O_CREAT | O_WRONLY, 0644);
+    write(fd, "File Operations!", 16);
+    close(fd);
+
+    rename("file.txt", "renamed_file.txt");
+    remove("renamed_file.txt");
+
+    printf("File operations completed.\n");
+    return 0;
+}

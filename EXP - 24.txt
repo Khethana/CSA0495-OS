@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd = open("test.txt", O_CREAT | O_WRONLY, 0644);
+    write(fd, "Hello, File!", 12);
+    close(fd);
+    
+    fd = open("test.txt", O_RDONLY);
+    char buffer[13];
+    read(fd, buffer, 12);
+    buffer[12] = '\0';
+    printf("Read from file: %s\n", buffer);
+    close(fd);
+    
+    return 0;
+}

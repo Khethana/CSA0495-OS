@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+int main() {
+    int max[3] = {7, 5, 3}, alloc[3] = {3, 2, 2}, need[3];
+    for (int i = 0; i < 3; i++)
+        need[i] = max[i] - alloc[i];
+
+    printf("Need: ");
+    for (int i = 0; i < 3; i++)
+        printf("%d ", need[i]);
+    return 0;
+}

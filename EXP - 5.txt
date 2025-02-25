@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main() {
+    int n, i, j, bt[10], pri[10], temp;
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+    printf("Enter burst times and priorities: ");
+    for (i = 0; i < n; i++) scanf("%d %d", &bt[i], &pri[i]);
+
+    for (i = 0; i < n-1; i++)
+        for (j = i+1; j < n; j++)
+            if (pri[i] < pri[j]) { // Sort by priority
+                temp = bt[i]; bt[i] = bt[j]; bt[j] = temp;
+                temp = pri[i]; pri[i] = pri[j]; pri[j] = temp;
+            }
+
+    for (i = 0, temp = 0; i < n; i++) {
+        printf("P%d: WT=%d TAT=%d\n", i+1, temp, temp + bt[i]);
+        temp += bt[i];
+    }
+
+    return 0;
+}

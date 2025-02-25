@@ -1,0 +1,13 @@
+#include <stdio.h>
+
+int main() {
+    int block_size[3] = {10, 20, 30}, process_size = 15;
+    int best = -1;
+    for (int i = 0; i < 3; i++)
+        if (block_size[i] >= process_size && (best == -1 || block_size[i] < block_size[best]))
+            best = i;
+
+    if (best != -1) block_size[best] -= process_size;
+    printf("Best fit allocated at block %d\n", best);
+    return 0;
+}

@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+typedef struct {
+    int id;
+    char name[20];
+} Employee;
+
+int main() {
+    Employee e = {1, "Alice"};
+    FILE *fp = fopen("employee.dat", "wb+");
+    fwrite(&e, sizeof(Employee), 1, fp);
+    fseek(fp, 0, SEEK_SET);
+    fread(&e, sizeof(Employee), 1, fp);
+    printf("Employee: %d %s\n", e.id, e.name);
+    fclose(fp);
+    return 0;
+}

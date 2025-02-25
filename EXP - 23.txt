@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+int main() {
+    int block_size[3] = {10, 20, 30}, process_size = 15;
+    for (int i = 0; i < 3; i++)
+        if (block_size[i] >= process_size) {
+            block_size[i] -= process_size;
+            printf("First fit allocated at block %d\n", i);
+            break;
+        }
+    return 0;
+}

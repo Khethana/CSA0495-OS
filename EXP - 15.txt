@@ -1,0 +1,8 @@
+#include <stdio.h>
+#include <sys/stat.h>
+
+int main() {
+    mkdir("level1", 0777);
+    mkdir("level1/level2", 0777);
+    return 0;
+}

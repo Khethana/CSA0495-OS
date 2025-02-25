@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+typedef struct {
+    int id, bt, pri, wt, tat, rt;
+} Process;
+
+void priorityScheduling(Process p[], int n) {
+    int time = 0, completed = 0, min_idx;
+    
+    while (completed < n) {
+        min_idx = -1;
+        for (int i = 0; i < n; i++)
+            if (p[i].rt > 0 && (min_idx == -1 || p[i].pri < p[min_idx].pri))
+                min_idx = i;
+        
+        if (min_idx == -1) break; // No process available
+        
+        p[min_idx].rt--; time++;
+        
+        if (p[min_idx].rt == 0) {
+            completed++;
+            p[min_idx].tat = time;
+            p[min_idx].wt = p[min_idx].tat - p[min_idx].bt;
+        }
+    }
+    
+    for (int i = 0; i < n; i++)
+        printf("P%d: WT=%d, TAT=%d\n", p[i].id, p[i].wt, p[i].tat);
+}
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+    Process p[n];
+
+    printf("Enter burst time and priority: \n");
+    for (int i = 0; i < n; i++) {
+        p[i].id = i + 1;
+        scanf("%d %d", &p[i].bt, &p[i].pri);
+        p[i].rt = p[i].bt;
+    }
+
+    priorityScheduling(p, n);
+    return 0;
+}
