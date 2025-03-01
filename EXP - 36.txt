@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void c_scan(int requests[], int n, int head, int disk_size) {
+    int seek_time = 0, current = head;
+    int left[20], right[20], l = 0, r = 0;
+    
+    for (int i = 0; i < n; i++) {
+        if (requests[i] < head)
+            left[l++] = requests[i];
+        else
+            right[r++] = requests[i];
+    }
+
+    left[l++] = 0;  // Add start boundary
+    right[r++] = disk_size - 1;  // Add end boundary
+
+    // Sort left and right requests
+    for (int i = 0; i < l - 1; i++) {
+        for (int j = 0; j < l - i - 1; j++) {
+            if (left[j] > left[j + 1]) {
+                int temp = left[j];
+                left[j] = left[j + 1];
+                left[j + 1] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < r - 1; i++) {
+        for (int j = 0; j < r - i - 1; j++) {
+            if (right[j] > right[j + 1]) {
+                int temp = right[j];
+                right[j] = right[j + 1];
+                right[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("C-SCAN Disk Scheduling Order:\n");
+
+    for (int i = 0; i < r; i++) {
+        seek_time += abs(right[i] - current);
+        printf("%d -> ", right[i]);
+        current = right[i];
+    }
+
+    // Jump to the start
+    seek_time += abs(disk_size - 1 - 0);
+    current = 0;
+
+    for (int i = 0; i < l; i++) {
+        seek_time += abs(left[i] - current);
+        printf("%d -> ", left[i]);
+        current = left[i];
+    }
+
+    printf("\nTotal Seek Time: %d\n", seek_time);
+    printf("Average Seek Time: %.2f\n", (float)seek_time / n);
+}
+
+int main() {
+    int n, head, disk_size;
+    
+    printf("Enter number of disk requests: ");
+    scanf("%d", &n);
+    
+    int requests[n];
+    printf("Enter the disk requests sequence: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &requests[i]);
+    }
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    printf("Enter disk size: ");
+    scanf("%d", &disk_size);
+    
+    c_scan(requests, n, head, disk_size);
+    
+    return 0;
+}
